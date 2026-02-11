@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Web Vulnerability Scanner</title>
+
+  <!-- Responsive -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Main Styles -->
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+<header>
+  <h1>🛡️ AI Web Vulnerability Scanner</h1>
+  <div class="top-btns">
+    <button onclick="location.href='login.html'">Login</button>
+    <button class="pro">Start Pro</button>
+  </div>
+</header>
+
+<!-- ================= SCAN BAR ================= -->
+<section class="scan">
+  <input
+    id="url"
+    type="url"
+    placeholder="https://juice-shop.herokuapp.com"
+    autocomplete="off"
+  >
+  <button onclick="scan()">Scan Website</button>
+</section>
+
+<!-- ================= SUMMARY BAR ================= -->
+<section id="summary"></section>
+
+<!-- ================= MAIN DASHBOARD ================= -->
+<section class="main">
+
+  <!-- LEFT: VULNERABILITY CARDS -->
+  <div id="cards"></div>
+
+  <!-- RIGHT: SIDE PANEL -->
+  <div class="side">
+
+    <h3>📊 Vulnerability Overview</h3>
+
+    <!-- Charts -->
+    <div style="height:220px;">
+      <canvas id="pie"></canvas>
+    </div>
+
+    <div style="height:220px; margin-top:20px;">
+      <canvas id="bar"></canvas>
+    </div>
+
+    <h3 style="margin-top:25px">🛡️ Prevention Tips</h3>
+    <ul>
+      <li>Validate and sanitize inputs</li>
+      <li>Use HTTPS & secure cookies</li>
+      <li>Apply Content Security Policy</li>
+      <li>Keep software updated</li>
+      <li>Restrict access to critical files</li>
+    </ul>
+
+    <button class="pdf">📄 Generate PDF Report</button>
+
+  </div>
+</section>
+
+<!-- ================= SCRIPTS ================= -->
+<!-- Order matters -->
+<script src="charts.js" defer></script>
+<script src="dashboard.js" defer></script>
+
+</body>
+</html>

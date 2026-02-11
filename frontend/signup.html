@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signup | AI Web Vulnerability Scanner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="card login-card">
+  <h2>📝 Signup</h2>
+
+  <input id="username" type="text" placeholder="Username" required>
+  <input id="password" type="password" placeholder="Password" required>
+
+  <button onclick="signup()">Create Account</button>
+
+  <p style="margin-top:15px">
+    Already have an account? <a href="login.html">Login</a>
+  </p>
+
+  <p id="msg" style="color:#ff6b6b; margin-top:10px;"></p>
+</div>
+
+<script>
+async function signup() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const msg = document.getElementById("msg");
+
+  msg.textContent = "";
+
+  if (!username || !password) {
+    msg.textContent = "All fields are required";
+    return;
+  }
+
+  try {
+    const res = await fetch("/signup", {
+      method: "POST",
+      credentials: "include",   // 🔥 Important for session cookies
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      alert("Signup successful! Please login.");
+      window.location.href = "login.html";
+    } else {
+      msg.textContent = data.message || "Signup failed";
+    }
+
+  } catch (err) {
+    console.error("Signup Error:", err);
+    msg.textContent = "Server not reachable. Make sure backend + ngrok are running.";
+  }
+}
+
+// Allow Enter key
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Enter") {
+    signup();
+  }
+});
+</script>
+
+</body>
+</html>

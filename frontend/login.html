@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login | AI Web Vulnerability Scanner</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="card login-card">
+  <h2>🔐 Login</h2>
+
+  <input id="username" type="text" placeholder="Username" required>
+  <input id="password" type="password" placeholder="Password" required>
+
+  <button onclick="login()">Login</button>
+
+  <p style="margin-top:15px">
+    New user? <a href="signup.html">Signup</a>
+  </p>
+
+  <p id="msg" style="color:#ff6b6b; margin-top:10px;"></p>
+</div>
+
+<script>
+async function login() {
+  const username = document.getElementById("username").value.trim();
+  const password = document.getElementById("password").value.trim();
+  const msg = document.getElementById("msg");
+
+  msg.textContent = "";
+
+  if (!username || !password) {
+    msg.textContent = "Please enter username and password";
+    return;
+  }
+
+  try {
+    /** * UPDATED: Changed from "http://127.0.0.1:8000/login" to "/login"
+     * This ensures it works on your public ngrok link automatically.
+     */
+    const res = await fetch("/login", {
+      method: "POST",
+      credentials: "include", // ✅ Essential for session cookies
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ username, password })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      // Redirects to the dashboard on success
+      window.location.href = "index.html";
+    } else {
+      msg.textContent = data.message || "Invalid credentials";
+    }
+
+  } catch (err) {
+    console.error("Login Error:", err);
+    msg.textContent = "Server not reachable. Check if backend is running.";
+  }
+}
+
+// Allow Enter key to trigger login function
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") login();
+});
+</script>
+
+</body>
+</html>
